@@ -10,44 +10,45 @@ Check out [OpenAPI-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
 
 ## How do I use this?
 
-Use this plugin in your maven POM, in you swagger codegen plugin configuration,
-like this:
+Use this codegen plugin in your maven POM with the swagger-codegen-maven-plugin:
 
 ```
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>io.swagger</groupId>
-				<artifactId>swagger-codegen-maven-plugin</artifactId>
-				<version>2.2.1</version>
-				<dependencies>
-					<dependency>
-						<groupId>com.github.upachler.swagger.codegen.jaxrslean</groupId>
-						<artifactId>jaxrslean</artifactId>
-						<version>1.0-SNAPSHOT</version>
-					</dependency>
-				</dependencies>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<inputSpec>${basedir}/src/main/swagger/swagger.yaml</inputSpec>
-							<!-- language file, like e.g. JavaJaxRSCodegen shipped with swagger -->
-							<language>jaxrs-lean</language>
-							<addCompileSourceRoot>true</addCompileSourceRoot>
-							
-							<apiPackage>handler</apiPackage>
-							<modelPackage>model</modelPackage>
-							<invokerPackage>invoker</invokerPackage>
-							<sourceFolder>${project.build.directory}/generated-sources/swagger</sourceFolder>
-						</configuration>
-					</execution>
-				</executions>
+<build>
+	<plugins>
+		<plugin>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-codegen-maven-plugin</artifactId>
+			<version>2.2.1</version>
+			
+			<!-- bind the jaxrslean swagger-codegen plugin, so the 'jaxrs-lean' language
+			becomes available in swagger -->
+			<dependencies>
+				<dependency>
+					<groupId>com.github.upachler.swagger.codegen.jaxrslean</groupId>
+					<artifactId>jaxrslean</artifactId>
+					<version>1.0-SNAPSHOT</version>
+				</dependency>
+			</dependencies>
+			
+			<executions>
+				<execution>
+					<goals>
+						<goal>generate</goal>
+					</goals>
+					<configuration>
+						<inputSpec>${basedir}/src/main/swagger/swagger.yaml</inputSpec>
+						<!-- the jaxrs-lean language provided by the jaxrslean codegen plugin -->
+						<language>jaxrs-lean</language>
 
-			</plugin>
-		</plugins>
-	</build>
+						<apiPackage>handler</apiPackage>
+						<modelPackage>model</modelPackage>
+						<sourceFolder>${project.build.directory}/generated-sources/swagger</sourceFolder>
+					</configuration>
+				</execution>
+			</executions>
+
+		</plugin>
+	</plugins>
+</build>
 ```
 
