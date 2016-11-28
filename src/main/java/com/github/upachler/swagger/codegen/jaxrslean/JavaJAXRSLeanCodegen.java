@@ -34,10 +34,26 @@ import io.swagger.codegen.languages.AbstractJavaJAXRSServerCodegen;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import io.swagger.util.Json;
+import java.util.Collections;
+import java.util.HashMap;
 import org.apache.commons.io.FileUtils;
 
 public class JavaJAXRSLeanCodegen extends AbstractJavaJAXRSServerCodegen
 {	
+	static final Map<String,String> BOXED_TO_PRMITIVE_MAP;
+	
+	static {
+		Map<String,String> m = new HashMap<String,String>();
+		m.put("Double", "double");
+		m.put("Float", "float");
+		m.put("Long", "long");
+		m.put("Integer", "int");
+		m.put("Short", "short");
+		m.put("Byte", "byte");
+		m.put("Boolean", "boolean");
+		BOXED_TO_PRMITIVE_MAP = Collections.unmodifiableMap(m);
+	}
+	
 	public JavaJAXRSLeanCodegen()
 	{
         super();
@@ -138,6 +154,20 @@ public class JavaJAXRSLeanCodegen extends AbstractJavaJAXRSServerCodegen
         model.imports.remove("ToStringSerializer");
         model.imports.remove("JsonValue");
         model.imports.remove("JsonProperty");
+		
+		// prevent writing 'default' values that are the same as the Java default
+		// after class initialization, there's not need to have them im code
+		if(property.defaultValue.equals("null") || property.defaultValue.equals("0") || property.defaultValue.equals("false")) {
+			property.defaultValue = null;
+		}
+		
+		if(Boolean.TRUE.equals(property.required)) {
+			String primitiveType = BOXED_TO_PRMITIVE_MAP.get(property.datatypeWithEnum);
+			if(primitiveType != null) {
+				property.datatype = primitiveType;
+				property.datatypeWithEnum = primitiveType;
+			}
+		}
     }
     
 	@Override

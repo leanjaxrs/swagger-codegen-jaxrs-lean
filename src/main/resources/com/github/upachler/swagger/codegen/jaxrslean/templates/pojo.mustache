@@ -1,4 +1,3 @@
-import io.swagger.annotations.*;
 import java.util.Objects;
 {{#description}}@ApiModel(description = "{{{description}}}"){{/description}}
 
@@ -8,24 +7,23 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 {{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
 
 {{>enumClass}}{{/items}}{{/items.isEnum}}
-  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
+  private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};{{/vars}}
 
   {{#vars}}
   /**{{#description}}
    * {{{description}}}{{/description}}{{#minimum}}
    * minimum: {{minimum}}{{/minimum}}{{#maximum}}
    * maximum: {{maximum}}{{/maximum}}
-   **/
-  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
-    this.{{name}} = {{name}};
-    return this;
-  }
-
-  {{#vendorExtensions.extraAnnotation}}{{vendorExtensions.extraAnnotation}}{{/vendorExtensions.extraAnnotation}}
-  @ApiModelProperty({{#example}}example = "{{example}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+   * @return {{name}}
+   **/{{#vendorExtensions.extraAnnotation}}
+  {{vendorExtensions.extraAnnotation}}{{/vendorExtensions.extraAnnotation}}
   public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
+
+  /**
+   * @param {{name}}
+   */
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
