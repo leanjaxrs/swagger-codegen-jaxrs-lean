@@ -173,6 +173,27 @@ public class JavaJAXRSLeanCodegen extends AbstractJavaJAXRSServerCodegen
 			}
 		}
     }
+
+	@Override
+	public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+		objs = super.postProcessModels(objs);
+		
+		// remove all imports from io.swagger.* - Because these imports are 
+		// added by superclasses rather late in the process, we need to hook
+		// in the file postprocessing step. The import additions are hard wired
+		// in code there, withtout obvious configurability to turn them off.
+		List<Map<String,Object>> imports = (List<Map<String,Object>>) objs.get("imports");
+		List<Map<String,Object>> removeList = new ArrayList<Map<String,Object>>();
+		for(Map<String, Object> im : imports) {
+			Object v = im.get("import");
+			if(v.toString().startsWith("io.swagger.")) {
+				removeList.add(im);
+			}
+		}
+		imports.removeAll(removeList);
+		
+		return objs;
+	}
     
 	@Override
     public void preprocessSwagger(Swagger swagger) {
