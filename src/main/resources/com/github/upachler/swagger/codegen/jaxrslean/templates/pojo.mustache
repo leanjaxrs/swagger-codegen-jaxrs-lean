@@ -26,6 +26,25 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   }
 
   {{/vars}}
+  
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private final {{classname}} o = new {{classname}}();
+    
+    public {{classname}} build() {
+      return o;
+    }
+
+    {{#vars}}
+    public Builder {{name}}({{{datatypeWithEnum}}} {{name}}) {
+      o.{{setter}}({{name}});
+      return this;
+    }
+    {{/vars}}
+  }
 
   @Override
   public boolean equals(Object o) {
