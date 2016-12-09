@@ -40,7 +40,7 @@ import org.apache.commons.io.FileUtils;
 
 public class JavaJAXRSLeanCodegen extends AbstractJavaJAXRSServerCodegen
 {	
-	static final Map<String,String> BOXED_TO_PRMITIVE_MAP;
+	static final Map<String,String> BOXED_TO_PRIMITIVE_MAP;
 	
 	static {
 		Map<String,String> m = new HashMap<String,String>();
@@ -51,7 +51,7 @@ public class JavaJAXRSLeanCodegen extends AbstractJavaJAXRSServerCodegen
 		m.put("Short", "short");
 		m.put("Byte", "byte");
 		m.put("Boolean", "boolean");
-		BOXED_TO_PRMITIVE_MAP = Collections.unmodifiableMap(m);
+		BOXED_TO_PRIMITIVE_MAP = Collections.unmodifiableMap(m);
 	}
 	
 	public JavaJAXRSLeanCodegen()
@@ -165,13 +165,15 @@ public class JavaJAXRSLeanCodegen extends AbstractJavaJAXRSServerCodegen
 			property.defaultValue = null;
 		}
 		
+		String boxedType = property.datatypeWithEnum;
 		if(Boolean.TRUE.equals(property.required)) {
-			String primitiveType = BOXED_TO_PRMITIVE_MAP.get(property.datatypeWithEnum);
+			String primitiveType = BOXED_TO_PRIMITIVE_MAP.get(property.datatypeWithEnum);
 			if(primitiveType != null) {
 				property.datatype = primitiveType;
 				property.datatypeWithEnum = primitiveType;
 			}
 		}
+		property.vendorExtensions.put("boxedType", boxedType);
     }
 
 	@Override

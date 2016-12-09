@@ -39,8 +39,22 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     }
 
     {{#vars}}
+	
+	/**
+     * Set the {{name}} property
+     * @param {{name}} value to set
+     */
     public Builder {{name}}({{{datatypeWithEnum}}} {{name}}) {
       o.{{setter}}({{name}});
+      return this;
+    }
+	
+	/**
+     * Set the {{name}} property if the given optional is <i>present</i>.
+     * @param {{name}}Opt optional value to set, if present
+     */
+    public Builder {{name}}(Optional<{{{vendorExtensions.boxedType}}}> {{name}}Opt) {
+      {{name}}Opt.ifPresent(this::{{name}});
       return this;
     }
     {{/vars}}

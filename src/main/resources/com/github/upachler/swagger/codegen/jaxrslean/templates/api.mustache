@@ -5,7 +5,9 @@ package {{package}};
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -41,6 +43,25 @@ public interface {{classname}}  {
 	@Consumes({ {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
 	@Produces({ {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
     public {{>actualReturnType}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}});
+{{/operation}}
+
+{{#operation}}
+    /**
+     * Generates a URI with the path and query components set so that they refer
+     * to the {{path}} subresource. Note that the application base and context paths
+     * will be missing and need to be prefixed.
+     * {{^pathParams.isEmpty}}Path templates are expanded to match given path parameters{{/pathParams.isEmpty}}
+     * {{^queryParams.isEmpty}}Query params are appended to reflect the passed query parameters{{/queryParams.isEmpty}}
+     * {{#pathParams}}@param {{baseName}}{{/pathParams}}
+     * {{#queryParams}}@param {{baseName}}{{/queryParams}}
+     */
+    public static URI {{nickname}}URI({{#pathParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}{{^pathParams.isEmpty}}{{^queryParams.isEmpty}}, {{/queryParams.isEmpty}}{{/pathParams.isEmpty}}{{#queryParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/queryParams}}) {
+        return UriBuilder.fromResource({{classname}}.class)
+            .path("{{path}}")
+            {{#pathParams}}.resolveTemplate("{{baseName}}", {{paramName}})
+            {{/pathParams}}{{#queryParams}}.queryParam("{{baseName}}", {{paramName}})
+            {{/queryParams}}.build();
+    }
 {{/operation}}
 }
 {{/operations}}
