@@ -40,7 +40,11 @@ import org.apache.commons.io.FileUtils;
 
 public class JavaJAXRSLeanCodegen extends AbstractJavaJAXRSServerCodegen
 {	
+	static final String USE_JAXB_ANNOTATIONS = "useJaxbAnnotations";
+	
 	static final Map<String,String> BOXED_TO_PRIMITIVE_MAP;
+	
+	private boolean useJaxbAnnotations = true;
 	
 	static {
 		Map<String,String> m = new HashMap<String,String>();
@@ -104,7 +108,17 @@ public class JavaJAXRSLeanCodegen extends AbstractJavaJAXRSServerCodegen
         supportedLibraries.put(DEFAULT_LIBRARY, "JAXRS");
         library.setEnum(supportedLibraries);
 
+		additionalProperties.put(USE_JAXB_ANNOTATIONS, true);
+		
         cliOptions.add(library);
+	}
+
+	public void setUseJaxbAnnotations(boolean useJaxbAnnotations) {
+		this.useJaxbAnnotations = useJaxbAnnotations;
+	}
+
+	public boolean isUseJaxbAnnotations() {
+		return useJaxbAnnotations;
 	}
 	
 	@Override
@@ -112,6 +126,11 @@ public class JavaJAXRSLeanCodegen extends AbstractJavaJAXRSServerCodegen
 	{
 		super.processOpts();
 
+        if (additionalProperties.containsKey(USE_JAXB_ANNOTATIONS)) {
+            boolean useJaxbAnnotationsProp = convertPropertyToBooleanAndWriteBack(USE_JAXB_ANNOTATIONS);
+            this.setUseJaxbAnnotations(useJaxbAnnotationsProp);
+        }
+		
 		supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 	} 
 
@@ -120,7 +139,7 @@ public class JavaJAXRSLeanCodegen extends AbstractJavaJAXRSServerCodegen
 	{
 		return "jaxrs-lean";
 	}
-
+	
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
         String basePath = resourcePath;

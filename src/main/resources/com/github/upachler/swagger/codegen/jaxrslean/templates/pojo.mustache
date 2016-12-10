@@ -4,6 +4,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 {{>enumPropertyClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
 
 {{>enumPropertyClass}}{{/items}}{{/items.isEnum}}
+{{#useJaxbAnnotations}}
+  @XmlElement(name="{{baseName}}")
+{{/useJaxbAnnotations}} 
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};{{/vars}}
 
   {{#vars}}
