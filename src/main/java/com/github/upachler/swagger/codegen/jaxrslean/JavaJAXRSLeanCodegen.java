@@ -127,7 +127,7 @@ public class JavaJAXRSLeanCodegen extends AbstractJavaJAXRSServerCodegen
 		super.processOpts();
 
         if (additionalProperties.containsKey(USE_JAXB_ANNOTATIONS)) {
-            boolean useJaxbAnnotationsProp = convertPropertyToBooleanAndWriteBack(USE_JAXB_ANNOTATIONS);
+            boolean useJaxbAnnotationsProp = Boolean.valueOf(additionalProperties.get(USE_JAXB_ANNOTATIONS).toString());
             this.setUseJaxbAnnotations(useJaxbAnnotationsProp);
         }
 		
