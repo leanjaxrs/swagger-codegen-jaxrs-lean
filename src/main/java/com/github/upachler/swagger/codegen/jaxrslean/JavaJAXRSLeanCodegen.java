@@ -90,6 +90,7 @@ public class JavaJAXRSLeanCodegen extends AbstractJavaJAXRSServerCodegen
         typeMapping.put("date-time", "XMLGregorianCalendar"); // Map DateTime fields to Java standart class 'XMLGregorianCalendar'
 
         importMapping.put("XMLGregorianCalendar", "javax.xml.datatype.XMLGregorianCalendar"); // Map DateTime fields to Java standard class 'XMLGregorianCalendar'
+        importMapping.put("Response", "javax.ws.rs.core.Response"); // Map JAX RS Response type
 
         super.embeddedTemplateDir = templateDir = getClass().getPackage().getName().replace('.', '/') + "/templates";
 
@@ -167,7 +168,29 @@ public class JavaJAXRSLeanCodegen extends AbstractJavaJAXRSServerCodegen
         opList.add(co);
         co.baseName = basePath;
     }
+
+	@Override
+	public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+		
+		// this method's super implementation will change an operation's return
+		// type that's 'null' to 'void'. This is not very useful; we'd rather
+		// return a Response object in this case.
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        if ( operations != null ) {
+            @SuppressWarnings("unchecked")
+            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            for ( CodegenOperation operation : ops ) {
+				if(operation.returnType == null) {
+					operation.returnType = "Response";
+				}
+			}
+		}
+ 		
+		return super.postProcessOperations(objs);
+		
+	}
     
+	
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
