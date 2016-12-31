@@ -1,5 +1,7 @@
 # Lean JAX-RS Swagger Codegen Plugin: interfaces without the clutter!
 
+[![Build Status](https://travis-ci.org/upachler/swagger-codegen-jaxrs-lean.svg?branch=master)](https://travis-ci.org/upachler/swagger-codegen-jaxrs-lean)
+
 ## Overview
 This [swagger](https://swagger.io)-codegen plugin generates Java interfaces for 
 JAX-RS, which can be used for server AND client alike. 
