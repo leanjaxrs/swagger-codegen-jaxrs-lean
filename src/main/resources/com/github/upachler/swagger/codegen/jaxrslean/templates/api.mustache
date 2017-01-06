@@ -56,11 +56,14 @@ public interface {{classname}}  {
      * {{#queryParams}}@param {{baseName}}{{/queryParams}}
      */
     public static URI {{nickname}}URI({{#pathParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}{{^pathParams.isEmpty}}{{^queryParams.isEmpty}}, {{/queryParams.isEmpty}}{{/pathParams.isEmpty}}{{#queryParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/queryParams}}) {
-        return UriBuilder.fromResource({{classname}}.class)
+        UriBuilder b = UriBuilder.fromResource({{classname}}.class)
             .path("{{path}}")
             {{#pathParams}}.resolveTemplate("{{baseName}}", {{paramName}})
-            {{/pathParams}}{{#queryParams}}.queryParam("{{baseName}}", {{paramName}})
-            {{/queryParams}}.build();
+            {{/pathParams}};
+		{{#queryParams}}if({{paramName}}!=null) {
+			b.queryParam("{{baseName}}", {{paramName}});
+		}{{/queryParams}};
+		return b.build();
     }
 {{/operation}}
 }
