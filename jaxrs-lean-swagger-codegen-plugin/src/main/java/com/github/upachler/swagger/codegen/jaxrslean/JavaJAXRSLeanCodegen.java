@@ -86,10 +86,10 @@ public class JavaJAXRSLeanCodegen extends AbstractJavaJAXRSServerCodegen
         typeMapping.remove("date");
         typeMapping.remove("DateTime");	// remove odd DateTime mapping defined in superclass
 		
-		// for date-time, use XMLGregorianCalendar
-        typeMapping.put("date-time", "XMLGregorianCalendar"); // Map DateTime fields to Java standart class 'XMLGregorianCalendar'
+		// for date-time, use Calendar
+        typeMapping.put("DateTime", "Date"); // Map DateTime fields to Java standard class 'Date'
 
-        importMapping.put("XMLGregorianCalendar", "javax.xml.datatype.XMLGregorianCalendar"); // Map DateTime fields to Java standard class 'XMLGregorianCalendar'
+        importMapping.put("Date", "java.util.Date"); // Map DateTime fields to Java standard class 'Date'
         importMapping.put("Response", "javax.ws.rs.core.Response"); // Map JAX RS Response type
 
         super.embeddedTemplateDir = templateDir = getClass().getPackage().getName().replace('.', '/') + "/templates";

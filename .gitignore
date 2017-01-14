@@ -1,1 +1,3 @@
 /target/
+/jaxrs-lean-swagger-codegen-tests/target/
+/jaxrs-lean-swagger-codegen-plugin/target/

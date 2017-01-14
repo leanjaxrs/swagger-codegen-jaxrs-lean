@@ -1,0 +1,84 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.github.leanjaxrs</groupId>
+	<artifactId>jaxrs-lean-swagger-codegen-tests</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<parent>
+		<groupId>com.github.leanjaxrs</groupId>
+		<artifactId>jaxrs-lean-swagger-codegen</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<description>This test suite mainly checks that what the generator produces
+	compiles and provides the correct types.</description>
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<version>2.2.1</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.github.leanjaxrs</groupId>
+						<artifactId>jaxrs-lean-swagger-codegen-plugin</artifactId>
+						<version>1.0-SNAPSHOT</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${basedir}/src/test/swagger/petstore_full/swagger.yaml</inputSpec>
+							<language>jaxrs-lean</language>
+							<sourceFolder>${project.build.directory}/generated-sources/swagger</sourceFolder>
+							<apiPackage>com.github.leanjaxrs.test.petstore_full.api</apiPackage>
+							<modelPackage>com.github.leanjaxrs.test.petstore_full.api</modelPackage>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>		
+
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>2.0.1</version>
+			<type>jar</type>
+		</dependency>
+		<!--
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>jaxrs-lean-swagger-codegen-plugin</artifactId>
+			<version>${project.version}</version>
+			<scope>runtime</scope>
+			<!- - actually even scope runtime is wrong, but it comes closest to
+			what we need: A plugin depencency that cascades build triggers from
+			this project to the plugin project, but otherwise is not visible
+			except for swagger-codegen - ->
+		</dependency>
+		-->
+	</dependencies>
+	<properties>
+		<swagger-codegen-version>2.2.1</swagger-codegen-version>
+		<junit-version>4.8.1</junit-version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+</project>
