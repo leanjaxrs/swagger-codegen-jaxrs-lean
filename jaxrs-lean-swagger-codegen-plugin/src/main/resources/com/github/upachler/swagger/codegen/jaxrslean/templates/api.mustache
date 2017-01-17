@@ -61,7 +61,12 @@ public interface {{classname}}  {
             {{#pathParams}}.resolveTemplate("{{baseName}}", {{paramName}})
             {{/pathParams}};
 		{{#queryParams}}if({{paramName}}!=null) {
-			b.queryParam("{{baseName}}", {{paramName}});
+			if(java.util.Collection.class.isAssignableFrom({{paramName}}.getClass())) {
+				java.util.Collection c = java.util.Collection.class.cast({{paramName}});
+				b.queryParam("{{baseName}}", c.toArray(new Object[c.size()]));
+			} else {
+				b.queryParam("{{baseName}}", {{paramName}});
+			}
 		}{{/queryParams}};
 		return b.build();
     }
