@@ -30,6 +30,7 @@ import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.CodegenResponse;
 import io.swagger.codegen.languages.AbstractJavaJAXRSServerCodegen;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
@@ -172,15 +173,54 @@ public class JavaJAXRSLeanCodegen extends AbstractJavaJAXRSServerCodegen
 	@Override
 	public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
 		
-		// this method's super implementation will change an operation's return
-		// type that's 'null' to 'void'. This is not very useful; we'd rather
-		// return a Response object in this case.
+		// this method's super implementation will issue return types of "File",
+		// mapping to java.io.File for 'schema.type: file' responses. However,
+		// java.io.File is not a flexible response type, and I'm not even 
+		// sure JAX RS would recognize it, so we change it to Response.
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if ( operations != null ) {
             @SuppressWarnings("unchecked")
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for ( CodegenOperation operation : ops ) {
-				if(operation.returnType == null) {
+				Map<Integer, CodegenResponse> succes2xxResponses = new HashMap<Integer, CodegenResponse>();
+				for(CodegenResponse r : operation.responses) {
+					int status;
+					try {
+						status = Integer.parseInt(r.code.trim());
+					} catch(NumberFormatException nfx) {
+						continue;
+					}
+					if(status / 100 == 2) {
+						succes2xxResponses.put(status, r);
+					}
+				}
+				
+				// We need to force the Response type if we need to report a non-200
+				// response code from the 2xx range, if we have multiple 2xx responses
+				// (so the implementation can pick one and signal it in Response).
+				//
+				// In case there are no 2xx responses defined, we assume that the
+				// service returns error codes on a regular basis. JAX RS applications
+				// report errors generally by throwing a WebApplicationException,
+				// but in this case reporting errors seems to be the common case
+				// for the service in question, implementations are expected to
+				// return the desired error via the Response return value.
+				//
+				// If there is a single 204 status code response, we force
+				// the return type to void, because the JAX RS runtime will
+				// report a 204 status for void resource methods automatically.
+				if(succes2xxResponses.isEmpty() || succes2xxResponses.size() > 1) {
+					operation.returnType = "Response";
+				} else if(succes2xxResponses.size()==1) {
+					
+					if(succes2xxResponses.containsKey(204)) {
+						operation.returnType = null; // -> void
+					} else if(operation.returnType == null) {
+						operation.returnType = "Response";
+					}
+				}
+				
+				if("File".equalsIgnoreCase(operation.returnType)) {
 					operation.returnType = "Response";
 				}
 			}
