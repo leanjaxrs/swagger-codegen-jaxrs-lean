@@ -22,7 +22,7 @@
 					<dependency>
 						<groupId>com.github.leanjaxrs</groupId>
 						<artifactId>jaxrs-lean-swagger-codegen-plugin</artifactId>
-						<version>0.8-SNAPSHOT</version>
+						<version>${project.version}</version>
 					</dependency>
 				</dependencies>
 				<executions>
