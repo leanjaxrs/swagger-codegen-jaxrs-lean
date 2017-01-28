@@ -1,0 +1,19 @@
+
+
+To release, do..
+
+mvn -Possrh-release release:clean release:prepare -Dusername=$GIT_USER -Dpassword=$GIT_PASSWORD
+
+then..
+mvn -Possrh-release release:perform -Dusername=$GIT_USER -Dpassword=$GIT_PASSWORD
+
+
+
+If something goes wrong, do
+
+mvn release:rollback -Dusername=$GIT_USER -Dpassword=$GIT_PASSWORD
+
+AND (see mvn output for tag-name):
+
+git tag -d <tag-name>
+git push origin :refs/tags/<tag-name>
