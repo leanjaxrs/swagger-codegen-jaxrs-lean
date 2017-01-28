@@ -22,7 +22,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   }
 
   /**
-   * @param {{name}}
+   * @param {{name}} Set the {{name}} property.
    */
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
@@ -30,13 +30,30 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 
   {{/vars}}
   
+  /**
+   * Creates a builder for {{classname}} instances
+   * @return the new {{classname}} builder.
+   */
   public static Builder builder() {
     return new Builder();
   }
 
+  /**
+   * <p>A builder class for building {{classname}} objects with a fluent API. So to
+   * build an instance, use a pattern like this:</p>
+   * <pre>
+   * {{classname}} instance = {{classname}}.builder()
+   * {{#vars}}    .{{name}}({{name}}Value) // set value of {{name}} property
+   * {{/vars}}    .build();  // build the object!
+   * </pre>
+   */
   public static class Builder {{#parent}} extends {{parent}}.Builder{{/parent}}{
     private final {{classname}} o = new {{classname}}();
     
+	/**
+     * Finish building the instance and return it
+     * @return the newly built {{classname}} instance
+     */
     public {{classname}} build() {
       return o;
     }
@@ -46,6 +63,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 	/**
      * Set the {{name}} property
      * @param {{name}} value to set
+	 * @return This builder
      */
     public Builder {{name}}({{{datatypeWithEnum}}} {{name}}) {
       o.{{setter}}({{name}});
@@ -55,6 +73,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 	/**
      * Set the {{name}} property if the given optional is <i>present</i>.
      * @param {{name}}Opt optional value to set, if present
+	 * @return This builder
      */
     public Builder {{name}}(Optional<{{{vendorExtensions.boxedType}}}> {{name}}Opt) {
       {{name}}Opt.ifPresent(this::{{name}});
