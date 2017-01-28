@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.github.leanjaxrs</groupId>
 		<artifactId>jaxrs-lean-swagger-codegen</artifactId>
-		<version>0.8</version>
+		<version>0.9-SNAPSHOT</version>
 	</parent>
 	<description>This test suite mainly checks that what the generator produces
 	compiles and provides the correct types.</description>
