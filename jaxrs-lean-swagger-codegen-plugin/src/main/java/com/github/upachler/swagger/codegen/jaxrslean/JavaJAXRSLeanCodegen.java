@@ -214,6 +214,7 @@ public class JavaJAXRSLeanCodegen extends AbstractJavaJAXRSServerCodegen
 				} else if(succes2xxResponses.size()==1) {
 					
 					if(succes2xxResponses.containsKey(204)) {
+						operation.vendorExtensions.put("x-jax-rs-return-type-void", true);
 						operation.returnType = null; // -> void
 					} else if(operation.returnType == null) {
 						operation.returnType = "Response";

@@ -38,8 +38,10 @@ public interface {{classname}}  {
      * <ul>{{#responses}}<li> {{{code}}}: {{{message}}}</li>
      * {{/responses}}</ul>
 	 * {{#allParams}}@param {{paramName}} {{baseName}} parameter. {{description}}
-	 * {{/allParams}}
+     * {{/allParams}}
+	 * {{^vendorExtensions.x-jax-rs-return-type-void}}
 	 * {{#returnType}}@return {{returnType}}{{/returnType}}
+	 * {{/vendorExtensions.x-jax-rs-return-type-void}}
      */
     @{{httpMethod}}{{#subresourceOperation}}
 	@Path("{{path}}"){{/subresourceOperation}}{{#hasConsumes}}
@@ -56,8 +58,8 @@ public interface {{classname}}  {
      * {{^pathParams.isEmpty}}Path templates are expanded to match given path parameters{{/pathParams.isEmpty}}
      * {{^queryParams.isEmpty}}Query params are appended to reflect the passed query parameters{{/queryParams.isEmpty}}
      * {{#pathParams}}@param {{paramName}} The {{baseName}} path parameter
-	 * {{/pathParams}}{{#queryParams}}@param {{paramName}} The {{baseName}} query parameter
-	 * {{/queryParams}}
+     * {{/pathParams}}{{#queryParams}}@param {{paramName}} The {{baseName}} query parameter
+     * {{/queryParams}}
 	 * @return A URI to the {{path}} subresource
      */
     public static URI {{nickname}}URI({{#pathParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}{{^pathParams.isEmpty}}{{^queryParams.isEmpty}}, {{/queryParams.isEmpty}}{{/pathParams.isEmpty}}{{#queryParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/queryParams}}) {

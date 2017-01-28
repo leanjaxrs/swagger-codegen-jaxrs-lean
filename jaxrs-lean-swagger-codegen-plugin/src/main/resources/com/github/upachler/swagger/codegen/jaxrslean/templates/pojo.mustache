@@ -11,7 +11,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 
   {{#vars}}
   /**{{#description}}
-   * {{{description}}}{{/description}}{{#minimum}}
+   * {{description}}{{/description}}{{#minimum}}
    * minimum: {{minimum}}{{/minimum}}{{#maximum}}
    * maximum: {{maximum}}{{/maximum}}
    * @return {{name}}
@@ -43,8 +43,10 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
    * build an instance, use a pattern like this:</p>
    * <pre>
    * {{classname}} instance = {{classname}}.builder()
-   * {{#vars}}    .{{name}}({{name}}Value) // set value of {{name}} property
-   * {{/vars}}    .build();  // build the object!
+   *     // set properties of the new instance...
+   * {{#vars}}    .{{name}}({{name}}Value)
+   * {{/vars}}    // ...and finally build the object!
+   *    .build();
    * </pre>
    */
   public static class Builder {{#parent}} extends {{parent}}.Builder{{/parent}}{
