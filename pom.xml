@@ -12,6 +12,45 @@
 		<module>jaxrs-lean-swagger-codegen-plugin</module>
 		<module>jaxrs-lean-swagger-codegen-tests</module>
 	</modules>
+	<distributionManagement>
+		<repository>
+			<id>sonatype-oss-releases</id>
+			<name>OSSRH Releases</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		</repository>
+		<snapshotRepository>
+			<id>sonatype-oss-snapshots</id>
+			<name>OSSRH Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>The Lean JAX RS Project</name>
+		<url>https://github.com/leanjaxrs/</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<name>Uwe Pachler</name>
+			<email>jaxrs.lean.swagger.codegen@gmail.com</email>
+			<organization>Github</organization>
+			<organizationUrl>https://github.com/leanjaxrs/</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:https://github.com/leanjaxrs/swagger-codegen-jaxrs-lean.git</connection>
+		<developerConnection>scm:git:https://github.com/leanjaxrs/swagger-codegen-jaxrs-lean.git</developerConnection>
+		<url>https://github.com/leanjaxrs/swagger-codegen-jaxrs-lean</url>
+	</scm>
+	
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -48,4 +87,54 @@
 		<swagger-codegen-version>2.2.1</swagger-codegen-version>
 		<junit-version>4.8.1</junit-version>
 	</properties>
+	
+	<profiles>
+		<profile>
+			<id>ossrh-release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>3.0.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.10.4</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>	
 </project>

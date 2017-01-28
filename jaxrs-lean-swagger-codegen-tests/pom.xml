@@ -18,7 +18,7 @@
 			<plugin>
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-codegen-maven-plugin</artifactId>
-				<version>2.2.1</version>
+				<version>${swagger-codegen-version}</version>
 				<dependencies>
 					<dependency>
 						<groupId>com.github.leanjaxrs</groupId>
@@ -62,22 +62,8 @@
 			<version>2.0.1</version>
 			<type>jar</type>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>jaxrs-lean-swagger-codegen-plugin</artifactId>
-			<version>${project.version}</version>
-			<scope>runtime</scope>
-			<!- - actually even scope runtime is wrong, but it comes closest to
-			what we need: A plugin depencency that cascades build triggers from
-			this project to the plugin project, but otherwise is not visible
-			except for swagger-codegen - ->
-		</dependency>
-		-->
 	</dependencies>
 	<properties>
-		<swagger-codegen-version>2.2.1</swagger-codegen-version>
-		<junit-version>4.8.1</junit-version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
