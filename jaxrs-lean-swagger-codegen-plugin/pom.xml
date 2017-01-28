@@ -8,6 +8,7 @@
 		<artifactId>jaxrs-lean-swagger-codegen</artifactId>
 		<version>0.9-SNAPSHOT</version>
 	</parent>
+	<name>Lean JAX-RS Swagger Codegen - Plugin</name>
 	<build>
 		<plugins>
 

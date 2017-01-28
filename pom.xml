@@ -4,6 +4,11 @@
 	<artifactId>jaxrs-lean-swagger-codegen</artifactId>
 	<version>0.9-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	
+	<name>Lean JAX-RS Swagger Codegen</name>
+	<description>This swagger-codegen plugin generates Java interfaces for JAX-RS, which can be used for server AND client alike.</description>
+	<url>https://github.com/leanjaxrs/swagger-codegen-jaxrs-lean</url>
+	
 	<prerequisites>
 		<maven>3.0.3</maven>
 	</prerequisites>

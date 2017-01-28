@@ -8,6 +8,7 @@
 		<artifactId>jaxrs-lean-swagger-codegen</artifactId>
 		<version>0.9-SNAPSHOT</version>
 	</parent>
+	<name>Lean JAX-RS Swagger Codegen - Tests</name>
 	<description>This test suite mainly checks that what the generator produces
 	compiles and provides the correct types.</description>
 	<build>
